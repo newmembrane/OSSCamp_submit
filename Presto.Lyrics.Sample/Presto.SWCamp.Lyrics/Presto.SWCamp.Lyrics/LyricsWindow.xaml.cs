@@ -31,13 +31,27 @@ namespace Presto.SWCamp.Lyrics
             //파일 읽어오기
             var title = PrestoSDK.PrestoService.Player.CurrentMusic;//재생중인 음악 정보
             var lines = File.ReadAllLines("C:/Users/cbnu/Documents/Presto.Lyrics.Sample/Musics/볼빨간사춘기 - 여행.lrc");
-            for(int i=3;i<lines.Length;i++)
+
+            for (int i=3;i<lines.Length;i++)
             {
-                //Regex regex = new Regex("")
-                var splitData = lines[i].Split(']');
-                var time = TimeSpan.ParseExact(splitData[0].Substring(1).Trim(),
-                    @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                MessageBox.Show(time.TotalMilliseconds.ToString());
+                //정규식을 사용하여 시간 추출
+                Regex regex = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
+                MatchCollection resultTime = regex.Matches(lines[i]);
+                if (resultTime.Count < 1) break;
+                var time = TimeSpan.ParseExact(resultTime[0].Groups[0].ToString(), @"mm\:ss\.ff", CultureInfo.InvariantCulture);
+                var lyrStartIndex = 10;
+
+                // 가사 추출
+                if (lines[i][10] == ']') lyrStartIndex++;
+                var lyrLine = lines[i].Substring(lyrStartIndex).ToString();
+
+                MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
+
+                //var splitData = lines[i].Split(']');
+                //var time = TimeSpan.ParseExact(splitData[0].Substring(1).Trim(),
+                //    @"mm\:ss\.ff", CultureInfo.InvariantCulture);
+                //var lyrLine = splitData[1];
+                //MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
             }
 
             // 타이머
