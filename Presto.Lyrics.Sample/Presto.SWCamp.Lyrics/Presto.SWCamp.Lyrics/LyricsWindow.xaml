@@ -17,8 +17,8 @@
             Text="{Binding Player.CurrentMusic.Title}"
             TextAlignment="Center" />
         <TextBlock
+            x:Name="data_show"
             FontSize="14"
-            Text="{Binding Player.CurrentMusic.Artist}"
             TextAlignment="Center" />
         <TextBlock
             x:Name="textLyrics"

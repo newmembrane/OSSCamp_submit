@@ -1,5 +1,6 @@
 ﻿using Presto.SDK;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -24,40 +25,33 @@ namespace Presto.SWCamp.Lyrics
     /// </summary>
     public partial class LyricsWindow : Window
     {
+        public Lyrics lyrics = new Lyrics();
+        public string str { get; set; }
         public LyricsWindow()
         {
             InitializeComponent();
+            
 
             //파일 읽어오기
             var title = PrestoSDK.PrestoService.Player.CurrentMusic;//재생중인 음악 정보
-            var lines = File.ReadAllLines("C:/Users/cbnu/Documents/Presto.Lyrics.Sample/Musics/볼빨간사춘기 - 여행.lrc");
-
-            for (int i=3;i<lines.Length;i++)
+            //MessageBox.Show(title.Title);
+            
+            try
             {
-                //정규식을 사용하여 시간 추출
-                Regex regex = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
-                MatchCollection resultTime = regex.Matches(lines[i]);
-                if (resultTime.Count < 1) break;
-                var time = TimeSpan.ParseExact(resultTime[0].Groups[0].ToString(), @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                var lyrStartIndex = 10;
-
-                // 가사 추출
-                if (lines[i][10] == ']') lyrStartIndex++;
-                var lyrLine = lines[i].Substring(lyrStartIndex).ToString();
-
-                MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
-
-                //var splitData = lines[i].Split(']');
-                //var time = TimeSpan.ParseExact(splitData[0].Substring(1).Trim(),
-                //    @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                //var lyrLine = splitData[1];
-                //MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
+                string filepath = System.IO.Path.GetFileNameWithoutExtension(PrestoSDK.PrestoService.Player.CurrentMusic.Path);
+                lyrics.InitLyrics(filepath);
+                MessageBox.Show("재생중인 음악경로 : " + filepath);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("재생중이 아닙니다.");
+            }
+            
 
             // 타이머
             var timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(100)
+                Interval = TimeSpan.FromMilliseconds(1000)
             };
             timer.Tick += Timer_Tick;
             timer.Start();
@@ -66,6 +60,9 @@ namespace Presto.SWCamp.Lyrics
         private void Timer_Tick(object sender, EventArgs e)
         {
             textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString();
+            lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
+            data_show.Text = lyrics.CurrLyrLine;
+            str = PrestoSDK.PrestoService.Player.Position.ToString();
         }
     }
     
