@@ -69,21 +69,42 @@ namespace Presto.SWCamp.Lyrics
         }
         public string prevLine(int index)
         {
-            if (index > 0)
-                return dic.ElementAt(index - 1).Value;
-            else
-                return "";
+            try
+            {
+                if (index > 0)
+                    return dic.ElementAt(index - 1).Value;
+                else
+                    return "";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public string nextLine(int index)
         {
-            if (index < dic.Count - 1)
-                return dic.ElementAt(index + 1).Value;
-            else
-                return "";
+            try
+            {
+                if (index < dic.Count - 1)
+                    return dic.ElementAt(index + 1).Value;
+                else
+                    return "";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public string currLine(int index)
         {
-            return dic.ElementAt(index).Value;
+            try
+            {
+                return dic.ElementAt(index).Value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public void clear()
         {

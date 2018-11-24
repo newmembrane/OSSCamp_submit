@@ -31,7 +31,14 @@ namespace Presto.SWCamp.Lyrics
         public LyricsWindow()
         {
             InitializeComponent();
+            MouseLeftButtonDown += LyricsWindow_MouseLeftButtonDown;
             PrestoSDK.PrestoService.Player.StreamChanged += Player_StreamChanged;
+        }
+
+        private void LyricsWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+            //throw new NotImplementedException();
         }
 
         private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
@@ -51,7 +58,12 @@ namespace Presto.SWCamp.Lyrics
                 //MessageBox.Show("재생중이 아닙니다.");
             }
             //lyrics.InitLyrics("../../../../ Musics / TWICE - Dance The Night Away.lrc");
-
+            if(lyrics.dic.Count == 0)
+            {
+                lyrics_prev_line.Text = "";
+                lyrics_curr_line.Text = "가사가 없습니다.";
+                lyrics_next_line.Text = "";
+            }
 
             // 타이머
             var timer = new DispatcherTimer
@@ -65,12 +77,19 @@ namespace Presto.SWCamp.Lyrics
         // PrestoSDK.PrestoService.Player.Position
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString(); //현재 재생중인 음악 경로
-            lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
-            int index = lyrics.CurrIndex;
-            lyrics_prev_line.Text = lyrics.prevLine(index);
-            lyrics_curr_line.Text = lyrics.currLine(index);
-            lyrics_next_line.Text = lyrics.nextLine(index);
+            try
+            {
+                //textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString(); //현재 재생중인 음악 경로
+                lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
+                int index = lyrics.CurrIndex;
+                lyrics_prev_line.Text = lyrics.prevLine(index);
+                lyrics_curr_line.Text = lyrics.currLine(index);
+                lyrics_next_line.Text = lyrics.nextLine(index);
+            }
+            catch (Exception)
+            {
+                //인덱스 범위 초과에 대한 오류 처리
+            }
         }
     }
     
