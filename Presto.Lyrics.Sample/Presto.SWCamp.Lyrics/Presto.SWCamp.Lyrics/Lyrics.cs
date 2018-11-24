@@ -12,18 +12,16 @@ namespace Presto.SWCamp.Lyrics
 {
     public class Lyrics
     {
-        public string dir = "../../../../Musics/";
-        public string Path;
         public Dictionary<TimeSpan, string> dic = new Dictionary<TimeSpan, string>();
         public TimeSpan CurrTime { get; set; }
         public double DoubledCurrTime { get; set; }
         public string CurrLyrLine { get; set; }
+        public int CurrIndex { get; set; }
         public void InitLyrics(string filepath) 
         {
             DoubledCurrTime = 0;
             CurrLyrLine = "";
-            Path = dir + filepath + ".lrc";
-            var lines = File.ReadAllLines(dir + filepath + ".lrc");
+            var lines = File.ReadAllLines(filepath);
             //var lines = File.ReadAllLines("../../../../Musics/TWICE - Dance The Night Away.lrc");
             Regex time_reg = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
             for (int i = 3; i < lines.Length; i++)
@@ -55,16 +53,41 @@ namespace Presto.SWCamp.Lyrics
          */
         public void SyncCurrentTimeLyrics(double position)
         {
-            int i = dic.Count;
+            int i = dic.Count - 1;
             if (dic.Count > 0)
             {
-                while (dic.ElementAt(i).Key.TotalMilliseconds < position)
+                for(i=dic.Count-1;i>=0;i--)
                 {
-                    i--;
+                    if (dic.ElementAt(i).Key.TotalMilliseconds < position)
+                        break;
                 }
+                if (i < 0) i = 0;
+                CurrIndex = i;
                 DoubledCurrTime = dic.ElementAt(i).Key.TotalMilliseconds;
                 CurrLyrLine = dic.ElementAt(i).Value;
             }
+        }
+        public string prevLine(int index)
+        {
+            if (index > 0)
+                return dic.ElementAt(index - 1).Value;
+            else
+                return "";
+        }
+        public string nextLine(int index)
+        {
+            if (index < dic.Count - 1)
+                return dic.ElementAt(index + 1).Value;
+            else
+                return "";
+        }
+        public string currLine(int index)
+        {
+            return dic.ElementAt(index).Value;
+        }
+        public void clear()
+        {
+            dic.Clear();
         }
     }
     

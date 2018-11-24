@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Path = System.IO.Path;
 
 namespace Presto.SWCamp.Lyrics
 {
@@ -26,43 +27,50 @@ namespace Presto.SWCamp.Lyrics
     public partial class LyricsWindow : Window
     {
         public Lyrics lyrics = new Lyrics();
-        public string str { get; set; }
+        string filepath;
         public LyricsWindow()
         {
             InitializeComponent();
-            
+            PrestoSDK.PrestoService.Player.StreamChanged += Player_StreamChanged;
+        }
 
+        private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
+        {
+            lyrics.clear();
             //파일 읽어오기
-            var title = PrestoSDK.PrestoService.Player.CurrentMusic;//재생중인 음악 정보
-            //MessageBox.Show(title.Title);
-            
             try
             {
-                string filepath = System.IO.Path.GetFileNameWithoutExtension(PrestoSDK.PrestoService.Player.CurrentMusic.Path);
-                lyrics.InitLyrics(filepath);
-                MessageBox.Show("재생중인 음악경로 : " + filepath);
+                var musicPath = PrestoSDK.PrestoService.Player.CurrentMusic.Path;
+                var lrcFileName = Path.GetFileNameWithoutExtension(musicPath) + ".lrc";
+                var dirPath = Path.GetDirectoryName(musicPath);
+                var result = Path.Combine(dirPath, lrcFileName);
+                lyrics.InitLyrics(result);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("재생중이 아닙니다.");
+                //MessageBox.Show("재생중이 아닙니다.");
             }
-            
+            //lyrics.InitLyrics("../../../../ Musics / TWICE - Dance The Night Away.lrc");
+
 
             // 타이머
             var timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(1000)
+                Interval = TimeSpan.FromMilliseconds(100)
             };
             timer.Tick += Timer_Tick;
             timer.Start();
         }
+
         // PrestoSDK.PrestoService.Player.Position
         private void Timer_Tick(object sender, EventArgs e)
         {
-            textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString();
+            //textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString(); //현재 재생중인 음악 경로
             lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
-            data_show.Text = lyrics.CurrLyrLine;
-            str = PrestoSDK.PrestoService.Player.Position.ToString();
+            int index = lyrics.CurrIndex;
+            lyrics_prev_line.Text = lyrics.prevLine(index);
+            lyrics_curr_line.Text = lyrics.currLine(index);
+            lyrics_next_line.Text = lyrics.nextLine(index);
         }
     }
     
