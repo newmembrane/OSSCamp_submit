@@ -1,5 +1,6 @@
 ﻿using Presto.SDK;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Path = System.IO.Path;
 
 namespace Presto.SWCamp.Lyrics
 {
@@ -24,34 +26,43 @@ namespace Presto.SWCamp.Lyrics
     /// </summary>
     public partial class LyricsWindow : Window
     {
+        public Lyrics lyrics = new Lyrics();
+        string filepath;
         public LyricsWindow()
         {
             InitializeComponent();
+            MouseLeftButtonDown += LyricsWindow_MouseLeftButtonDown;
+            PrestoSDK.PrestoService.Player.StreamChanged += Player_StreamChanged;
+        }
 
+        private void LyricsWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+            //throw new NotImplementedException();
+        }
+
+        private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
+        {
+            lyrics.clear();
             //파일 읽어오기
-            var title = PrestoSDK.PrestoService.Player.CurrentMusic;//재생중인 음악 정보
-            var lines = File.ReadAllLines("C:/Users/cbnu/Documents/Presto.Lyrics.Sample/Musics/볼빨간사춘기 - 여행.lrc");
-
-            for (int i=3;i<lines.Length;i++)
+            try
             {
-                //정규식을 사용하여 시간 추출
-                Regex regex = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
-                MatchCollection resultTime = regex.Matches(lines[i]);
-                if (resultTime.Count < 1) break;
-                var time = TimeSpan.ParseExact(resultTime[0].Groups[0].ToString(), @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                var lyrStartIndex = 10;
-
-                // 가사 추출
-                if (lines[i][10] == ']') lyrStartIndex++;
-                var lyrLine = lines[i].Substring(lyrStartIndex).ToString();
-
-                MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
-
-                //var splitData = lines[i].Split(']');
-                //var time = TimeSpan.ParseExact(splitData[0].Substring(1).Trim(),
-                //    @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                //var lyrLine = splitData[1];
-                //MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
+                var musicPath = PrestoSDK.PrestoService.Player.CurrentMusic.Path;
+                var lrcFileName = Path.GetFileNameWithoutExtension(musicPath) + ".lrc";
+                var dirPath = Path.GetDirectoryName(musicPath);
+                var result = Path.Combine(dirPath, lrcFileName);
+                lyrics.InitLyrics(result);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("재생중이 아닙니다.");
+            }
+            //lyrics.InitLyrics("../../../../ Musics / TWICE - Dance The Night Away.lrc");
+            if(lyrics.dic.Count == 0)
+            {
+                lyrics_prev_line.Text = "";
+                lyrics_curr_line.Text = "가사가 없습니다.";
+                lyrics_next_line.Text = "";
             }
 
             // 타이머
@@ -62,10 +73,23 @@ namespace Presto.SWCamp.Lyrics
             timer.Tick += Timer_Tick;
             timer.Start();
         }
+
         // PrestoSDK.PrestoService.Player.Position
         private void Timer_Tick(object sender, EventArgs e)
         {
-            textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString();
+            try
+            {
+                //textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString(); //현재 재생중인 음악 경로
+                lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
+                int index = lyrics.CurrIndex;
+                lyrics_prev_line.Text = lyrics.prevLine(index);
+                lyrics_curr_line.Text = lyrics.currLine(index);
+                lyrics_next_line.Text = lyrics.nextLine(index);
+            }
+            catch (Exception)
+            {
+                //인덱스 범위 초과에 대한 오류 처리
+            }
         }
     }
     

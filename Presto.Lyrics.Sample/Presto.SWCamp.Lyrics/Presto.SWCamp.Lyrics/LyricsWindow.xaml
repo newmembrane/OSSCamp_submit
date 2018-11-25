@@ -9,7 +9,8 @@
     Width="600"
     Height="400"
     DataContext="{x:Static ps:PrestoSDK.PrestoService}"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Background="{x:Null}" AllowsTransparency="True" WindowStyle="None">
+   
 
     <StackPanel VerticalAlignment="Center">
         <TextBlock
@@ -17,16 +18,28 @@
             Text="{Binding Player.CurrentMusic.Title}"
             TextAlignment="Center" />
         <TextBlock
+            x:Name="data_show"
+            Text="{Binding Player.CurrentMusic.Path}"
             FontSize="14"
-            Text="{Binding Player.CurrentMusic.Artist}"
             TextAlignment="Center" />
         <TextBlock
-            x:Name="textLyrics"
+            x:Name="lyrics_prev_line"
             FontSize="20"
+            Foreground="#777777"
             TextAlignment="Center"/>
         <TextBlock
+            x:Name="lyrics_curr_line"
             FontSize="24"
-            Text="가사가 여기에 표시됩니다."
-            TextAlignment="Center" />
+            Text="가사가 없습니다."
+            TextAlignment="Center" Foreground="White" >
+            <TextBlock.Effect>
+                <DropShadowEffect/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock
+            x:Name="lyrics_next_line"
+            FontSize="20"
+            Foreground="#777777"
+            TextAlignment="Center"/>
     </StackPanel>
 </Window>
