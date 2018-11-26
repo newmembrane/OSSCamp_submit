@@ -31,21 +31,20 @@ namespace Presto.SWCamp.Lyrics
         public LyricsWindow()
         {
             InitializeComponent();
-            MouseLeftButtonDown += LyricsWindow_MouseLeftButtonDown;
-
-            //lyrics.InitLyrics("C:\\Users\\Admin\\GitAheadRepos\\OSSCamp_submit\\Presto.Lyrics.Sample\\Musics\\TWICE - Dance The Night Away.lrc");
-            //Dictionary<TimeSpan, string> tmp = new Dictionary<TimeSpan, string>();
-            //if (lyrics.dic.Count <= 0)
-            //    MessageBox.Show("The dictionary is empty...");
+            
+            //파싱 확인용
+            //string tmp_filename = "supercell - Sayonara Memories";
+            //lyrics.InitLyrics("C:\\Users\\Admin\\GitAheadRepos\\OSSCamp_submit\\Presto.Lyrics.Sample\\Musics\\" + tmp_filename + ".lrc");
+            //var tmp = lyrics.dic;
+            //if (tmp.Count <= 0)   MessageBox.Show("there is empty lyrics file...");
             //else
             //{
-            //    tmp = lyrics.dic;
-            //    foreach (var line in tmp)
-            //    {
-            //        MessageBox.Show(line.Key.TotalMilliseconds.ToString() + " / " + line.Value);
-            //    }
+            //    foreach (var value in tmp)
+            //        MessageBox.Show(value.Key.TotalMilliseconds.ToString() + "\n" + value.Value.ToString());
             //}
+            //lyrics.clear();
 
+            MouseLeftButtonDown += LyricsWindow_MouseLeftButtonDown;
             PrestoSDK.PrestoService.Player.StreamChanged += Player_StreamChanged;
         }
 

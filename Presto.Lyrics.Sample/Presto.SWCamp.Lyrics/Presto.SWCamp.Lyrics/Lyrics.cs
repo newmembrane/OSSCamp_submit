@@ -21,29 +21,34 @@ namespace Presto.SWCamp.Lyrics
         {
             DoubledCurrTime = 0;
             CurrLyrLine = "";
-            var lines = File.ReadAllLines(filepath);
+            var lines = File.ReadAllLines(filepath, Encoding.UTF8);
             //var lines = File.ReadAllLines("../../../../Musics/TWICE - Dance The Night Away.lrc");
             Regex time_reg = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 3; i < lines.Length; i++)
             {
                 //정규식을 사용하여 시간 추출
                 MatchCollection resultTime = time_reg.Matches(lines[i]);
                 if (resultTime.Count < 1) break;
                 var time = TimeSpan.ParseExact(resultTime[0].Groups[0].ToString(), @"mm\:ss\.ff", CultureInfo.InvariantCulture);
-                var lyrStartIndex = 10;
+                var lyrStartIndex = 9;
                 // 가사 추출
                 if (lines[i][lyrStartIndex] == ']') lyrStartIndex++;
                 var lyrLine = lines[i].Substring(lyrStartIndex).ToString();
-                //공백인 경우 띄어쓰기만 추가
-                if (lyrLine.Length <= 0) lyrLine += "@ empty line @";
                 //MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
-
+                
+                //Unicode -> UTF-8 인코딩
+                byte[] byteFromSet = System.Text.Encoding.UTF8.GetBytes(lyrLine);
+                string SettoBIUni = Encoding.UTF8.GetString(byteFromSet);
+                
                 // 같은시간대 가사 추가
                 if (dic.ContainsKey(time))
                 {
-                    dic[time] = dic[time].ToString() + "\n" + lyrLine;
+                    dic[time] = dic[time].ToString() + "\n" + SettoBIUni;
                 }
-                dic.Add(time, lyrLine);
+                else
+                {
+                    dic.Add(time, SettoBIUni);
+                }
             }
             //foreach (var value in dic)
                 //MessageBox.Show(value.Key.TotalMilliseconds.ToString() + "\n" + value.Value.ToString());
@@ -60,7 +65,8 @@ namespace Presto.SWCamp.Lyrics
             {
                 for(i=dic.Count-1;i>=0;i--)
                 {
-                    if (dic.ElementAt(i).Key.TotalMilliseconds < position)
+                    //마지막에 [00:00.00]부분을 넘기고 현재 자막싱크를 찾아감
+                    if (dic.ElementAt(i).Key.TotalMilliseconds != 0 && dic.ElementAt(i).Key.TotalMilliseconds < position)
                         break;
                 }
                 if (i < 0) i = 0;
