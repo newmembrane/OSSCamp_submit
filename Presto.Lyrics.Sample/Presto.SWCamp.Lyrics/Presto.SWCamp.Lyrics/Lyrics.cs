@@ -24,7 +24,7 @@ namespace Presto.SWCamp.Lyrics
             var lines = File.ReadAllLines(filepath);
             //var lines = File.ReadAllLines("../../../../Musics/TWICE - Dance The Night Away.lrc");
             Regex time_reg = new Regex(@"[0-9]{2,3}\:[0-9]{2}\.[0-9]{2}");
-            for (int i = 3; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 //정규식을 사용하여 시간 추출
                 MatchCollection resultTime = time_reg.Matches(lines[i]);
@@ -32,8 +32,10 @@ namespace Presto.SWCamp.Lyrics
                 var time = TimeSpan.ParseExact(resultTime[0].Groups[0].ToString(), @"mm\:ss\.ff", CultureInfo.InvariantCulture);
                 var lyrStartIndex = 10;
                 // 가사 추출
-                if (lines[i][10] == ']') lyrStartIndex++;
+                if (lines[i][lyrStartIndex] == ']') lyrStartIndex++;
                 var lyrLine = lines[i].Substring(lyrStartIndex).ToString();
+                //공백인 경우 띄어쓰기만 추가
+                if (lyrLine.Length <= 0) lyrLine += "@ empty line @";
                 //MessageBox.Show(time.TotalMilliseconds.ToString()+"\n"+lyrLine);
 
                 // 같은시간대 가사 추가
