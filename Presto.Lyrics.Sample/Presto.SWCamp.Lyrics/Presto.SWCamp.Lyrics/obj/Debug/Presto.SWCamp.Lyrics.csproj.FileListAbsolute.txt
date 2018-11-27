@@ -62,3 +62,6 @@ C:\Users\Admin\Desktop\OSSCamp_submit-master\Presto.Lyrics.Sample\Presto.SWCamp.
 C:\Users\Admin\Desktop\OSSCamp_submit-master\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Presto.SWCamp.Lyrics.csproj.CopyComplete
 C:\Users\Admin\Desktop\OSSCamp_submit-master\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Presto.SWCamp.Lyrics.dll
 C:\Users\Admin\Desktop\OSSCamp_submit-master\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Presto.SWCamp.Lyrics.pdb
+C:\Users\Admin\GitAheadRepos\OSSCamp_submit\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Window2.g.cs
+C:\Users\Admin\GitAheadRepos\OSSCamp_submit\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Presto.SWCamp.Lyrics_MarkupCompile.lref
+C:\Users\Admin\GitAheadRepos\OSSCamp_submit\Presto.Lyrics.Sample\Presto.SWCamp.Lyrics\Presto.SWCamp.Lyrics\obj\Debug\Window2.baml

@@ -28,6 +28,7 @@ namespace Presto.SWCamp.Lyrics
     {
         public Lyrics lyrics = new Lyrics();
         string filepath;
+        Window2 win2;
         public LyricsWindow()
         {
             InitializeComponent();
@@ -53,10 +54,34 @@ namespace Presto.SWCamp.Lyrics
             DragMove();
             //throw new NotImplementedException();
         }
+        private void bttnModal_Click(object sender, RoutedEventArgs e)
+        {
+            win2 = new Window2();
+            win2.Owner = this;
+            //for(int t = 0;t<10;t++)
+            //{
+            //    TextBlock tb = new TextBlock();
+            //    tb.Text = "text_line_" + t.ToString();
+            //    tb.TextAlignment = TextAlignment.Center;
+            //    win2.stkPanel.Children.Add(tb);
+            //}
+            foreach(var line in lyrics.dic)
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = line.Value;
+                tb.TextAlignment = TextAlignment.Center;
+                tb.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                tb.Margin = new Thickness(0, 5, 0, 5);
+                win2.stkPanel.Children.Add(tb);
+            }
+            win2.Show();
+        }
 
         private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
         {
             lyrics.clear();
+            if(win2 != null)
+                win2.Close();
             //파일 읽어오기
             try
             {
@@ -77,7 +102,7 @@ namespace Presto.SWCamp.Lyrics
                 lyrics_curr_line.Text = "가사가 없습니다.";
                 lyrics_next_line.Text = "";
             }
-
+            
             // 타이머
             var timer = new DispatcherTimer
             {
@@ -103,6 +128,11 @@ namespace Presto.SWCamp.Lyrics
             {
                 //인덱스 범위 초과에 대한 오류 처리
             }
+        }
+
+        private void btn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            btn.Background = btn.BorderBrush;
         }
     }
     

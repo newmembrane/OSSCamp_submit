@@ -59,6 +59,9 @@
       <DependentUpon>LyricsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PluginEntry.cs" />
+    <Compile Include="Window2.xaml.cs">
+      <DependentUpon>Window2.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -86,6 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="LyricsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
