@@ -63,12 +63,13 @@ namespace Presto.SWCamp.Lyrics
             int i = dic.Count - 1;
             if (dic.Count > 0)
             {
-                for(i=dic.Count-1;i>=0;i--)
+                for (i = dic.Count - 1; i >= 0; i--)
                 {
-                    //마지막에 [00:00.00]부분을 넘기고 현재 자막싱크를 찾아감
+                    //[00:00.00]부분을 무시하고 현재 자막싱크를 찾아감
                     if (dic.ElementAt(i).Key.TotalMilliseconds != 0 && dic.ElementAt(i).Key.TotalMilliseconds < position)
                         break;
                 }
+
                 if (i < 0) i = 0;
                 CurrIndex = i;
                 DoubledCurrTime = dic.ElementAt(i).Key.TotalMilliseconds;

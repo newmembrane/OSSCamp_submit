@@ -6,40 +6,73 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ps="clr-namespace:Presto.SDK;assembly=Presto.SDK"
     Title="플레이어 가사 창"
-    Width="600"
-    Height="400"
+    Width="400"
+    MinHeight="350" MaxHeight="500"
     DataContext="{x:Static ps:PrestoSDK.PrestoService}"
-    mc:Ignorable="d" Background="{x:Null}" AllowsTransparency="True" WindowStyle="None">
-   
-
-    <StackPanel VerticalAlignment="Center">
+    mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Foreground="black"
+    VerticalAlignment="Center" HorizontalAlignment="Center"
+    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+    d:DesignHeight="350"
+    >
+    <Window.Background>
+        <SolidColorBrush Color="Black" Opacity="0"/>
+    </Window.Background>
+    <Grid VerticalAlignment="Center">
+        <Border CornerRadius="10" Background="black" Opacity="0.65" MinHeight="250"/>
+    <StackPanel VerticalAlignment="Center" Margin="10 10 10 10" Orientation="Vertical">
         <TextBlock
-            FontSize="14"
+            FontSize="16"
             Text="{Binding Player.CurrentMusic.Title}"
-            TextAlignment="Center" />
+            TextAlignment="Center"
+            Margin="0 0 0 0"
+            Foreground="#ffffff"/>
+        <TextBlock
+            FontSize="15"
+            Text="{Binding Player.CurrentMusic.Artist.Name}"
+            TextAlignment="Center"
+            Foreground="#cccccc"/>
+        <!-- 파일 경로 표시
         <TextBlock
             x:Name="data_show"
             Text="{Binding Player.CurrentMusic.Path}"
             FontSize="14"
             TextAlignment="Center" />
+        -->
         <TextBlock
+            Margin="0 20 0 5"
             x:Name="lyrics_prev_line"
-            FontSize="20"
-            Foreground="#777777"
-            TextAlignment="Center"/>
+            FontSize="16"
+            LineHeight="25"
+            Foreground="#aaaaaa"
+            TextWrapping="Wrap"
+            TextAlignment="Center" >
+            <TextBlock.Effect>
+                <DropShadowEffect/>
+            </TextBlock.Effect>
+        </TextBlock>
         <TextBlock
             x:Name="lyrics_curr_line"
-            FontSize="24"
+            FontSize="18"
+            LineHeight="30"
             Text="가사가 없습니다."
+            TextWrapping="Wrap"
             TextAlignment="Center" Foreground="White" >
             <TextBlock.Effect>
                 <DropShadowEffect/>
             </TextBlock.Effect>
         </TextBlock>
         <TextBlock
+            Margin="0 5 0 0"
             x:Name="lyrics_next_line"
-            FontSize="20"
-            Foreground="#777777"
-            TextAlignment="Center"/>
+            FontSize="16"
+            LineHeight="25"
+            Foreground="#aaaaaa"
+            TextWrapping="Wrap"
+            TextAlignment="Center" >
+            <TextBlock.Effect>
+                <DropShadowEffect/>
+            </TextBlock.Effect>
+        </TextBlock>
     </StackPanel>
+    </Grid>
 </Window>
