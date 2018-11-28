@@ -76,12 +76,12 @@ namespace Presto.SWCamp.Lyrics
                 CurrLyrLine = dic.ElementAt(i).Value;
             }
         }
-        public string prevLine(int index)
+        public string prevLine(int index, int num)
         {
             try
             {
-                if (index > 0)
-                    return dic.ElementAt(index - 1).Value;
+                if (index > num - 1)
+                    return dic.ElementAt(index - num).Value;
                 else
                     return "";
             }
@@ -90,12 +90,12 @@ namespace Presto.SWCamp.Lyrics
                 throw;
             }
         }
-        public string nextLine(int index)
+        public string nextLine(int index, int num)
         {
             try
             {
-                if (index < dic.Count - 1)
-                    return dic.ElementAt(index + 1).Value;
+                if (index < dic.Count - num)
+                    return dic.ElementAt(index + num).Value;
                 else
                     return "";
             }

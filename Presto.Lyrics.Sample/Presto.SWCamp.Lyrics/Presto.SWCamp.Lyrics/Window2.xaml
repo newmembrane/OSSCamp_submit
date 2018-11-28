@@ -10,7 +10,7 @@
         <SolidColorBrush Color="Black" Opacity="0"/>
     </Window.Background>
     <Grid x:Name="MainGrid" HorizontalAlignment="Center" Height="500" VerticalAlignment="Top" Width="430">
-        <Border CornerRadius="5" Background="black" Opacity="0.65" MinHeight="250">
+        <Border CornerRadius="5" Background="#FF20262C" Opacity="0.98" MinHeight="250">
         </Border>
         <StackPanel 
             x:Name="stkPanel" 

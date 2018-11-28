@@ -32,7 +32,6 @@ namespace Presto.SWCamp.Lyrics
         public LyricsWindow()
         {
             InitializeComponent();
-            
             //파싱 확인용
             //string tmp_filename = "supercell - Sayonara Memories";
             //lyrics.InitLyrics("C:\\Users\\Admin\\GitAheadRepos\\OSSCamp_submit\\Presto.Lyrics.Sample\\Musics\\" + tmp_filename + ".lrc");
@@ -72,7 +71,9 @@ namespace Presto.SWCamp.Lyrics
                 tb.TextAlignment = TextAlignment.Center;
                 tb.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 tb.Margin = new Thickness(0, 5, 0, 5);
-                win2.stkPanel.Children.Add(tb);
+				tb.FontFamily = new FontFamily(new System.Uri("pack://application:,,,/AniconMaker;component/"), "./#JEJUGOTHIC");
+				//tb.FontFamily = new FontFamily(new Uri(AppDomain.CurrentDomain.BaseDirectory), "./#JEJUGOTHIC");
+				win2.stkPanel.Children.Add(tb);
             }
             win2.Show();
         }
@@ -99,9 +100,9 @@ namespace Presto.SWCamp.Lyrics
             if(lyrics.dic.Count == 0)
             {
                 lyrics_prev_line.Text = "";
-                lyrics_curr_line.Text = "가사가 없습니다.";
+				lyrics_curr_line.Text = "가사가 없습니다.";
                 lyrics_next_line.Text = "";
-            }
+			}
             
             // 타이머
             var timer = new DispatcherTimer
@@ -120,9 +121,9 @@ namespace Presto.SWCamp.Lyrics
                 //textLyrics.Text = PrestoSDK.PrestoService.Player.Position.ToString(); //현재 재생중인 음악 경로
                 lyrics.SyncCurrentTimeLyrics(PrestoSDK.PrestoService.Player.Position);
                 int index = lyrics.CurrIndex;
-                lyrics_prev_line.Text = lyrics.prevLine(index);
+                lyrics_prev_line.Text = lyrics.prevLine(index, 1);
                 lyrics_curr_line.Text = lyrics.currLine(index);
-                lyrics_next_line.Text = lyrics.nextLine(index);
+                lyrics_next_line.Text = lyrics.nextLine(index, 1);
             }
             catch (Exception)
             {

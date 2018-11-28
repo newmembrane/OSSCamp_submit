@@ -7,7 +7,8 @@
     xmlns:ps="clr-namespace:Presto.SDK;assembly=Presto.SDK"
     Title="플레이어 가사 창"
     Width="430"
-    MinHeight="350" MaxHeight="500"
+    MinHeight="200" MaxHeight="700"
+    SizeToContent="Height"
     DataContext="{x:Static ps:PrestoSDK.PrestoService}"
     mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Foreground="black"
     VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -18,7 +19,7 @@
         <SolidColorBrush Color="Black" Opacity="0"/>
     </Window.Background>
     <Grid VerticalAlignment="Center">
-        <Border CornerRadius="5" Background="black" Opacity="0.65" MinHeight="250">
+        <Border CornerRadius="5" Background="#FF20262C" Opacity="0.98" MinHeight="250">
             <Button
                 x:Name="btn"
                 Foreground="#eeeeee"
@@ -27,7 +28,9 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom" 
                 BorderThickness="0"
-                Click="bttnModal_Click" BorderBrush="{x:Null}" Cursor="Hand" Focusable="False" MouseLeave="btn_MouseLeave">
+                Padding="5 5 5 5"
+                Click="bttnModal_Click" BorderBrush="{x:Null}" Cursor="Hand"
+                Focusable="False" MouseLeave="btn_MouseLeave">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Style.Triggers>
@@ -45,10 +48,10 @@
                 FontWeight="DemiBold"
                 Text="{Binding Player.CurrentMusic.Title}"
                 TextAlignment="Center"
-                Margin="0 0 0 0"
+                Margin="0 0 0 5"
                 Foreground="#ffffff"/>
             <TextBlock
-                FontSize="15"
+                FontSize="14"
                 FontWeight="DemiBold"
                 Text="{Binding Player.CurrentMusic.Artist.Name}"
                 TextAlignment="Center"
@@ -59,10 +62,9 @@
                 Text="{Binding Player.CurrentMusic.Path}" />
             -->
             <TextBlock
-                Margin="0 20 0 10"
+                Margin="0 20 0 5"
                 x:Name="lyrics_prev_line"
-                FontSize="17"
-                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
+                FontSize="14"
                 LineHeight="23"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"
@@ -73,22 +75,20 @@
             </TextBlock>
             <TextBlock
                 x:Name="lyrics_curr_line"
-                FontSize="19"
+                FontSize="16" FontWeight="DemiBold"
                 LineHeight="28"
-                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
                 Text="가사가 없습니다."
                 TextWrapping="Wrap"
-                TextAlignment="Center" Foreground="White" >
+                TextAlignment="Center" Foreground="LightGreen" >
                 <TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock
-                Margin="0 10 0 10"
+                Margin="0 0 0 5"
                 x:Name="lyrics_next_line"
-                FontSize="17"
+                FontSize="14"
                 LineHeight="23"
-                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"
                 TextAlignment="Center" >
