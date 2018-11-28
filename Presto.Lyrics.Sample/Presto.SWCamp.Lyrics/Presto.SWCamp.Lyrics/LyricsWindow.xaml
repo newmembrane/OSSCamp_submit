@@ -61,7 +61,8 @@
             <TextBlock
                 Margin="0 20 0 10"
                 x:Name="lyrics_prev_line"
-                FontSize="16"
+                FontSize="17"
+                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
                 LineHeight="23"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"
@@ -72,8 +73,9 @@
             </TextBlock>
             <TextBlock
                 x:Name="lyrics_curr_line"
-                FontSize="18"
+                FontSize="19"
                 LineHeight="28"
+                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
                 Text="가사가 없습니다."
                 TextWrapping="Wrap"
                 TextAlignment="Center" Foreground="White" >
@@ -84,8 +86,9 @@
             <TextBlock
                 Margin="0 10 0 10"
                 x:Name="lyrics_next_line"
-                FontSize="16"
+                FontSize="17"
                 LineHeight="23"
+                FontFamily="./#JEJUGOTHIC" TextOptions.TextRenderingMode="Aliased"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"
                 TextAlignment="Center" >
