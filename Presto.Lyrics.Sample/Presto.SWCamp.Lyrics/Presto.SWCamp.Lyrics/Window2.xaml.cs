@@ -30,5 +30,18 @@ namespace Presto.SWCamp.Lyrics
             DragMove();
             //throw new NotImplementedException();
         }
+        private void svLineUp(object sender, RoutedEventArgs e)
+        {
+            sv.LineUp();
+        }
+        private void svLineDown(object sender, RoutedEventArgs e)
+        {
+            sv.LineDown();
+        }
+        // 전체가사창 닫기
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

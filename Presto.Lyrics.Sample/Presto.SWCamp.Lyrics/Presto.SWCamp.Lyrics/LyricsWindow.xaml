@@ -13,29 +13,52 @@
     mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Foreground="black"
     VerticalAlignment="Center" HorizontalAlignment="Center"
     VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-    d:DesignHeight="350"
     >
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0"/>
     </Window.Background>
     <Grid VerticalAlignment="Center">
-        <Border CornerRadius="5" Background="#FF20262C" Opacity="0.98" MinHeight="250">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}" x:Key="systemButton">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="Background" Value="Transparent"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}"  BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="Button.IsMouseOver" Value="True">
+                        <Setter Property="Button.Background" Value="LightGray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        <Border CornerRadius="5" Background="#FF20262C" Opacity="0.95" MinHeight="250">
             <Button
                 x:Name="btn"
                 Foreground="#eeeeee"
-                Background="Black" Opacity="1"
-                Content="전체 가사"
+                Content="전체 가사" VerticalContentAlignment="Center"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom" 
-                BorderThickness="0"
-                Padding="5 5 5 5"
-                Click="bttnModal_Click" BorderBrush="{x:Null}" Cursor="Hand"
-                Focusable="False" MouseLeave="btn_MouseLeave">
+                Margin="3 3 5 0"
+                Click="bttnModal_Click" Cursor="Hand"
+                >
                 <Button.Style>
-                    <Style TargetType="Button">
+                    <Style TargetType="Button" BasedOn="{StaticResource systemButton}">
                         <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Background" Value="#000000"/>
+                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                <Setter Property="Button.Background" Value="black"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -64,7 +87,7 @@
             <TextBlock
                 Margin="0 20 0 5"
                 x:Name="lyrics_prev_line"
-                FontSize="14"
+                FontSize="16"
                 LineHeight="23"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"
@@ -75,7 +98,8 @@
             </TextBlock>
             <TextBlock
                 x:Name="lyrics_curr_line"
-                FontSize="16" FontWeight="DemiBold"
+                FontSize="18"
+                FontWeight="DemiBold"
                 LineHeight="28"
                 Text="가사가 없습니다."
                 TextWrapping="Wrap"
@@ -85,9 +109,9 @@
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock
-                Margin="0 0 0 5"
+                Margin="0 5 0 5"
                 x:Name="lyrics_next_line"
-                FontSize="14"
+                FontSize="16"
                 LineHeight="23"
                 Foreground="#bbbbbb"
                 TextWrapping="Wrap"

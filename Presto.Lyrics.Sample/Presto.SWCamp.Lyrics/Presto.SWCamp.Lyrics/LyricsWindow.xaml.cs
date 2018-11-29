@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,7 +14,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -24,10 +27,10 @@ namespace Presto.SWCamp.Lyrics
     /// <summary>
     /// LyricsWindow.xaml에 대한 상호 작용 논리
     /// </summary>
+
     public partial class LyricsWindow : Window
     {
         public Lyrics lyrics = new Lyrics();
-        string filepath;
         Window2 win2;
         public LyricsWindow()
         {
@@ -43,7 +46,7 @@ namespace Presto.SWCamp.Lyrics
             //        MessageBox.Show(value.Key.TotalMilliseconds.ToString() + "\n" + value.Value.ToString());
             //}
             //lyrics.clear();
-
+            
             MouseLeftButtonDown += LyricsWindow_MouseLeftButtonDown;
             PrestoSDK.PrestoService.Player.StreamChanged += Player_StreamChanged;
         }
@@ -55,6 +58,8 @@ namespace Presto.SWCamp.Lyrics
         }
         private void bttnModal_Click(object sender, RoutedEventArgs e)
         {
+            if (win2 != null)
+                if (win2.IsLoaded) return;
             win2 = new Window2();
             win2.Owner = this;
             //for(int t = 0;t<10;t++)
@@ -75,14 +80,15 @@ namespace Presto.SWCamp.Lyrics
 				//tb.FontFamily = new FontFamily(new Uri(AppDomain.CurrentDomain.BaseDirectory), "./#JEJUGOTHIC");
 				win2.stkPanel.Children.Add(tb);
             }
+            win2.Top = this.Top + (this.ActualHeight);
+            win2.Left = this.Left;
             win2.Show();
         }
-
         private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
         {
             lyrics.clear();
             if(win2 != null)
-                win2.Close();
+                if(win2.IsLoaded) win2.Close();
             //파일 읽어오기
             try
             {
@@ -130,10 +136,10 @@ namespace Presto.SWCamp.Lyrics
                 //인덱스 범위 초과에 대한 오류 처리
             }
         }
-
-        private void btn_MouseLeave(object sender, MouseEventArgs e)
+        // 전체가사창 닫기
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
-            btn.Background = btn.BorderBrush;
+            this.Close();
         }
     }
     
