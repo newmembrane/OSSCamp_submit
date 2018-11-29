@@ -6,14 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ps="clr-namespace:Presto.SDK;assembly=Presto.SDK"
     Title="플레이어 가사 창"
-    Width="430"
-    MinHeight="200" MaxHeight="700"
+    Width="450"
     SizeToContent="Height"
     DataContext="{x:Static ps:PrestoSDK.PrestoService}"
     mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Foreground="black"
     VerticalAlignment="Center" HorizontalAlignment="Center"
-    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-    >
+    VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0"/>
     </Window.Background>
@@ -26,7 +24,6 @@
                 <Setter Property="HorizontalAlignment" Value="Right"/>
                 <Setter Property="VerticalAlignment" Value="Top"/>
                 <Setter Property="Background" Value="Transparent"/>
-
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -36,7 +33,6 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-
                 <Style.Triggers>
                     <Trigger Property="Button.IsMouseOver" Value="True">
                         <Setter Property="Button.Background" Value="LightGray" />
@@ -85,7 +81,7 @@
                 Text="{Binding Player.CurrentMusic.Path}" />
             -->
             <TextBlock
-                Margin="0 20 0 5"
+                Margin="0 20 0 10"
                 x:Name="lyrics_prev_line"
                 FontSize="16"
                 LineHeight="23"
@@ -109,7 +105,7 @@
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock
-                Margin="0 5 0 5"
+                Margin="0 10 0 5"
                 x:Name="lyrics_next_line"
                 FontSize="16"
                 LineHeight="23"
