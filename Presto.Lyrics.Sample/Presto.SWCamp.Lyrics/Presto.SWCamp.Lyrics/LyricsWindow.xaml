@@ -47,7 +47,7 @@
                 Content="전체 가사" VerticalContentAlignment="Center"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom" 
-                Margin="3 3 0 0"
+                Width="60" Height="25" Margin="3 3 0 0"
                 Click="bttnModal_Click" Cursor="Hand"
                 >
                 <Button.Style>
@@ -61,27 +61,29 @@
                 </Button.Style>
             </Button>
         </Border>
-        <StackPanel VerticalAlignment="Center" Margin="10 10 10 10" Orientation="Vertical">
-            <TextBlock
-                FontSize="16"
+        <StackPanel VerticalAlignment="top" Height="80">
+        <TextBlock
+                FontSize="18"
                 FontWeight="DemiBold"
                 Text="{Binding Player.CurrentMusic.Title}"
                 TextAlignment="Center"
-                Margin="0 0 0 5"
+                Margin="0 20 0 5"
                 Foreground="#ffffff"/>
-            <TextBlock
-                FontSize="14"
+        <TextBlock
+                FontSize="16"
                 FontWeight="DemiBold"
                 Text="{Binding Player.CurrentMusic.Artist.Name}"
                 TextAlignment="Center"
                 Foreground="#cccccc"/>
-            <!-- 파일 경로 표시
+        <!-- 파일 경로 표시
             <TextBlock
                 x:Name="data_show" FontSize="14" TextAlignment="Center" 
                 Text="{Binding Player.CurrentMusic.Path}" />
             -->
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center" Margin="10 80 10 10" Orientation="Vertical">
             <TextBlock
-                Margin="0 20 0 10"
+                Margin="0 5 0 10"
                 x:Name="lyrics_prev_line"
                 FontSize="16"
                 LineHeight="23"

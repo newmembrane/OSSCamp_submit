@@ -45,7 +45,11 @@ namespace Presto.SWCamp.Lyrics
         {
             //전체가사창 한개만 생성하기
             if (win2 != null)
-                if (win2.IsLoaded) return;
+                if (win2.IsLoaded)
+                {
+                    win2.Close();
+                    return;
+                }
             win2 = new Window2();
             win2.Owner = this;
 
@@ -55,22 +59,25 @@ namespace Presto.SWCamp.Lyrics
                 TextBlock tb = new TextBlock();
                 tb.Text = line.Value;
                 tb.TextAlignment = TextAlignment.Center;
+                tb.TextWrapping = TextWrapping.Wrap;
+                tb.FontSize = 15;
                 tb.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 tb.Margin = new Thickness(0, 5, 0, 5);
 				win2.stkPanel.Children.Add(tb);
             }
 
-            // 싱크 가사창 옆에 생성
-            win2.Top = this.Top;
-            win2.Left = this.Left + this.ActualWidth;
+            // 싱크 가사창 생성 위치 지정
+            win2.Top = this.Top + this.ActualHeight;
+            win2.Left = this.Left;
+
             win2.Show();
         }
         private void Player_StreamChanged(object sender, Common.StreamChangedEventArgs e)
         {
             // 이전 곡의 전체가사창 닫기
             lyrics.clear();
-            if(win2 != null)
-                if(win2.IsLoaded) win2.Close();
+            if (win2 != null)
+                if (win2.IsLoaded)  win2.Close();
 
             //가사 파일 읽어오기
             try
@@ -118,12 +125,5 @@ namespace Presto.SWCamp.Lyrics
                 //인덱스 범위 초과에 대한 오류 처리
             }
         }
-
-        // 전체가사창 닫기
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
     }
-    
 }
